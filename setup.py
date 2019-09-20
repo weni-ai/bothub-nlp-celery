@@ -8,6 +8,6 @@ setup(
     packages=find_packages(),
     install_requires=[
         'celery==4.2.1',
-        'django-environ==0.4.5',
+        'python-decouple==3.1',
     ],
 )
