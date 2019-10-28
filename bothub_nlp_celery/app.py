@@ -25,7 +25,7 @@ celery_app = CeleryService(
 )
 
 
-nlp_language = celery_app.nlp_spacy
+nlp_language = celery_app.nlp_spacy if settings.BOTHUB_NLP_SERVICE_WORKER else None
 
 
 queues_name = set(
