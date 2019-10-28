@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='bothub-nlp-celery',
-    version='0.1.3',
+    version='0.1.4',
     description='Bothub NLP Celery',
     packages=find_packages(),
     install_requires=[
