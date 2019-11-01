@@ -26,4 +26,6 @@ SUPPORTED_LANGUAGES = config(
 
 BOTHUB_NLP_LANGUAGE_QUEUE = config("BOTHUB_NLP_LANGUAGE_QUEUE", default="en")
 
-BOTHUB_NLP_SERVICE_WORKER = config("BOTHUB_NLP_SERVICE_WORKER", cast=bool, default=False)
+BOTHUB_NLP_SERVICE_WORKER = config(
+    "BOTHUB_NLP_SERVICE_WORKER", cast=bool, default=False
+)

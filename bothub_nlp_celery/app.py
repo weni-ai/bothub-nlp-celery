@@ -14,6 +14,7 @@ class CeleryService(Celery):
     def nlp_spacy(self):
         """Current nlp spacy instance."""
         import spacy
+
         print(f"loading {settings.BOTHUB_NLP_LANGUAGE_QUEUE} spacy lang model...")
         return spacy.load(settings.BOTHUB_NLP_LANGUAGE_QUEUE, parser=False)
 
