@@ -20,8 +20,8 @@ BOTHUB_NLP_NLU_AGROUP_LANGUAGE_QUEUE = config(
     "BOTHUB_NLP_NLU_AGROUP_LANGUAGE_QUEUE", cast=bool, default=True
 )
 
-BOTHUB_NLP_SENTRY_CLIENT = config("BOTHUB_NLP_SENTRY_CLIENT", cast=bool, default=False)
-BOTHUB_NLP_SENTRY = config("BOTHUB_NLP_SENTRY", default=None)
+BOTHUB_NLP_SENTRY_CLIENT = config("BOTHUB_NLP_CELERY_SENTRY_CLIENT", cast=bool, default=False)
+BOTHUB_NLP_SENTRY = config("BOTHUB_NLP_CELERY_SENTRY", default=None)
 
 SUPPORTED_LANGUAGES = config(
     "SUPPORTED_LANGUAGES", default="en|pt", cast=cast_supported_languages
