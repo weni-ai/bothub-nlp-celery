@@ -1,3 +1,5 @@
+import sentry_sdk
+from sentry_sdk.integrations.celery import CeleryIntegration
 from decouple import config
 from collections import OrderedDict
 
@@ -18,7 +20,8 @@ BOTHUB_NLP_NLU_AGROUP_LANGUAGE_QUEUE = config(
     "BOTHUB_NLP_NLU_AGROUP_LANGUAGE_QUEUE", cast=bool, default=True
 )
 
-BOTHUB_NLP_SENTRY_CLIENT = config("BOTHUB_NLP_SENTRY_CLIENT", default=None)
+BOTHUB_NLP_SENTRY_CLIENT = config("BOTHUB_NLP_SENTRY_CLIENT", cast=bool, default=False)
+BOTHUB_NLP_SENTRY = config("BOTHUB_NLP_SENTRY", default=None)
 
 SUPPORTED_LANGUAGES = config(
     "SUPPORTED_LANGUAGES", default="en|pt", cast=cast_supported_languages
@@ -29,3 +32,6 @@ BOTHUB_NLP_LANGUAGE_QUEUE = config("BOTHUB_NLP_LANGUAGE_QUEUE", default="en")
 BOTHUB_NLP_SERVICE_WORKER = config(
     "BOTHUB_NLP_SERVICE_WORKER", cast=bool, default=False
 )
+
+if BOTHUB_NLP_SENTRY_CLIENT:
+    sentry_sdk.init(BOTHUB_NLP_SENTRY, integrations=[CeleryIntegration()])
