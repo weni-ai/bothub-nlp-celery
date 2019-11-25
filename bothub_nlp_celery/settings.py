@@ -1,4 +1,4 @@
-import sentry_sdk
+from sentry_sdk import init
 from sentry_sdk.integrations.celery import CeleryIntegration
 from decouple import config
 from collections import OrderedDict
@@ -7,6 +7,10 @@ from collections import OrderedDict
 def cast_supported_languages(i):
     return OrderedDict([x.split(":", 1) if ":" in x else (x, x) for x in i.split("|")])
 
+
+ENVIRONMENT = config(
+    "ENVIRONMENT", default="production"
+)
 
 BOTHUB_NLP_CELERY_BROKER_URL = config(
     "BOTHUB_NLP_CELERY_BROKER_URL", default="redis://localhost:6379/0"
@@ -34,4 +38,8 @@ BOTHUB_NLP_SERVICE_WORKER = config(
 )
 
 if BOTHUB_NLP_SENTRY_CLIENT:
-    sentry_sdk.init(BOTHUB_NLP_SENTRY, integrations=[CeleryIntegration()])
+    init(
+        dsn=BOTHUB_NLP_SENTRY,
+        environment=ENVIRONMENT,
+        integrations=[CeleryIntegration()],
+    )
