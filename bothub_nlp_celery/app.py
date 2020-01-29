@@ -5,6 +5,7 @@ from kombu.utils.objects import cached_property
 from .actions import ACTION_PARSE
 from .actions import ACTION_DEBUG_PARSE
 from .actions import ACTION_SENTENCE_SUGGESTION
+from .actions import ACTION_WORDS_DISTIRBUTION
 from .actions import ACTION_TRAIN
 from .actions import ACTION_EVALUATE
 from .actions import queue_name
