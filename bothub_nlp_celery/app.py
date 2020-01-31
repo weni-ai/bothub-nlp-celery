@@ -3,6 +3,8 @@ from kombu import Queue
 from kombu.utils.objects import cached_property
 
 from .actions import ACTION_PARSE
+from .actions import ACTION_DEBUG_PARSE
+from .actions import ACTION_SENTENCE_SUGGESTION
 from .actions import ACTION_TRAIN
 from .actions import ACTION_EVALUATE
 from .actions import queue_name
@@ -31,6 +33,8 @@ nlp_language = celery_app.nlp_spacy if settings.BOTHUB_NLP_SERVICE_WORKER else N
 
 queues_name = set(
     [queue_name(ACTION_PARSE, lang) for lang in settings.SUPPORTED_LANGUAGES.keys()]
+    + [queue_name(ACTION_DEBUG_PARSE, lang) for lang in settings.SUPPORTED_LANGUAGES.keys()]
+    + [queue_name(ACTION_SENTENCE_SUGGESTION, lang) for lang in settings.SUPPORTED_LANGUAGES.keys()]
     + [queue_name(ACTION_TRAIN, lang) for lang in settings.SUPPORTED_LANGUAGES.keys()]
     + [
         queue_name(ACTION_EVALUATE, lang)
