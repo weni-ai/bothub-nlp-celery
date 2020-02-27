@@ -12,6 +12,7 @@ python-decouple = "==3.1"
 kombu = "==4.5.0"
 spacy = "==2.0.18"
 sentry-sdk = "==0.13.2"
+numpy = "==1.18.1"
 
 [dev-packages]
 "flake8" = "*"
