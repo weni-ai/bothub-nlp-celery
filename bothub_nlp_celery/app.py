@@ -5,6 +5,7 @@ from kombu.utils.objects import cached_property
 from .actions import ACTION_PARSE
 from .actions import ACTION_DEBUG_PARSE
 from .actions import ACTION_SENTENCE_SUGGESTION
+from .actions import ACTION_WORDS_DISTIRBUTION
 from .actions import ACTION_TRAIN
 from .actions import ACTION_EVALUATE
 from .actions import queue_name
@@ -18,7 +19,12 @@ class CeleryService(Celery):
         import spacy
 
         print(f"loading {settings.BOTHUB_NLP_LANGUAGE_QUEUE} spacy lang model...")
-        return spacy.load(settings.BOTHUB_NLP_LANGUAGE_QUEUE, parser=False)
+        nlp = spacy.load(settings.BOTHUB_NLP_LANGUAGE_QUEUE, parser=False)
+        if nlp.vocab.vectors_length >= 0:
+            norms = np.linalg.norm(nlp.vocab.vectors.data, axis=1, keepdims=True)
+            norms[norms == 0] = 1
+            nlp.vocab.vectors.data /= norms
+        return nlp
 
 
 celery_app = CeleryService(
