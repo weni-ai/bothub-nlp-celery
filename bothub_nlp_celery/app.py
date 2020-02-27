@@ -1,3 +1,5 @@
+import numpy as np
+
 from celery import Celery
 from kombu import Queue
 from kombu.utils.objects import cached_property
@@ -39,8 +41,14 @@ nlp_language = celery_app.nlp_spacy if settings.BOTHUB_NLP_SERVICE_WORKER else N
 
 queues_name = set(
     [queue_name(ACTION_PARSE, lang) for lang in settings.SUPPORTED_LANGUAGES.keys()]
-    + [queue_name(ACTION_DEBUG_PARSE, lang) for lang in settings.SUPPORTED_LANGUAGES.keys()]
-    + [queue_name(ACTION_SENTENCE_SUGGESTION, lang) for lang in settings.SUPPORTED_LANGUAGES.keys()]
+    + [
+        queue_name(ACTION_DEBUG_PARSE, lang)
+        for lang in settings.SUPPORTED_LANGUAGES.keys()
+    ]
+    + [
+        queue_name(ACTION_SENTENCE_SUGGESTION, lang)
+        for lang in settings.SUPPORTED_LANGUAGES.keys()
+    ]
     + [queue_name(ACTION_TRAIN, lang) for lang in settings.SUPPORTED_LANGUAGES.keys()]
     + [
         queue_name(ACTION_EVALUATE, lang)

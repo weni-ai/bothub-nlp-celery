@@ -8,9 +8,7 @@ def cast_supported_languages(i):
     return OrderedDict([x.split(":", 1) if ":" in x else (x, x) for x in i.split("|")])
 
 
-ENVIRONMENT = config(
-    "ENVIRONMENT", default="production"
-)
+ENVIRONMENT = config("ENVIRONMENT", default="production")
 
 BOTHUB_NLP_CELERY_BROKER_URL = config(
     "BOTHUB_NLP_CELERY_BROKER_URL", default="redis://localhost:6379/0"
@@ -24,7 +22,9 @@ BOTHUB_NLP_NLU_AGROUP_LANGUAGE_QUEUE = config(
     "BOTHUB_NLP_NLU_AGROUP_LANGUAGE_QUEUE", cast=bool, default=True
 )
 
-BOTHUB_NLP_SENTRY_CLIENT = config("BOTHUB_NLP_CELERY_SENTRY_CLIENT", cast=bool, default=False)
+BOTHUB_NLP_SENTRY_CLIENT = config(
+    "BOTHUB_NLP_CELERY_SENTRY_CLIENT", cast=bool, default=False
+)
 BOTHUB_NLP_SENTRY = config("BOTHUB_NLP_CELERY_SENTRY", default=None)
 
 SUPPORTED_LANGUAGES = config(
