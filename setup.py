@@ -15,6 +15,7 @@ setup(
         'python-decouple==3.1',
         'sentry-sdk==0.13.2',
         'numpy==1.18.1',
+        'google-api-python-client==1.9.1',
     ],
     extras_require=extras_requires,
 )
