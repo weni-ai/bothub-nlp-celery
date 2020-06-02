@@ -16,3 +16,4 @@ Usually this package is used as dependencie in a annother packages.
 | BOTHUB_NLP_SERVICE_WORKER | `boolean` | `False` | Set true if you are running celery bothub-nlp-nlu-worker |
 | BOTHUB_NLP_CELERY_SENTRY_CLIENT | `boolean` | `False` | Enable Sentry |
 | BOTHUB_NLP_CELERY_SENTRY | `str` | `None` | Set URL Sentry Server |
+| BOTHUB_NLP_AI_PLATFORM | `boolean` | `False` | Allow support for AI Platform |

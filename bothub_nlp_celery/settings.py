@@ -41,6 +41,8 @@ GOOGLE_APPLICATION_CREDENTIALS = config(
     "GOOGLE_APPLICATION_CREDENTIALS", cast=int, default=None
 )
 
+BOTHUB_NLP_AI_PLATFORM = config("BOTHUB_NLP_AI_PLATFORM", cast=bool, default=False)
+
 if BOTHUB_NLP_SENTRY_CLIENT:
     init(
         dsn=BOTHUB_NLP_SENTRY,
