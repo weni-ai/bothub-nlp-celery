@@ -37,14 +37,19 @@ class CeleryService(Celery):
             model_class_dict,
             model_weights_defaults,
             model_tokenizer_dict,
+            from_pt_dict,
         )
+
+        from transformers import TFBertModel
 
         tokenizer = model_tokenizer_dict[settings.BERT_MODEL_NAME].from_pretrained(
             model_weights_defaults[settings.BERT_MODEL_NAME], cache_dir=settings.BERT_CACHE_DIR
         )
-        model = model_class_dict[settings.BERT_MODEL_NAME].from_pretrained(
-            model_weights_defaults[settings.BERT_MODEL_NAME], cache_dir=settings.BERT_CACHE_DIR
-        )
+
+        model = TFBertModel.from_pretrained(model_weights_defaults[settings.BERT_MODEL_NAME], from_pt=True)
+        # model = model_class_dict[settings.BERT_MODEL_NAME].from_pretrained(
+        #     model_weights_defaults[settings.BERT_MODEL_NAME], cache_dir="", from_pt=from_pt_dict[settings.BERT_MODEL_NAME]
+        # )
 
         return model, tokenizer
 
@@ -62,14 +67,15 @@ celery_app = CeleryService(
 #     else (celery_app.nlp_spacy if settings.BOTHUB_NLP_SERVICE_WORKER else None)
 # )
 
-nlp_tokeziner = None
-
+nlp_tokenizer = None
+print("IFS CONDITIOONS ")
 if settings.BOTHUB_NLP_AI_PLATFORM and BOTHUB_LANGUAGE_MODEL == "SPACY":
     nlp_language = spacy.load(settings.BOTHUB_NLP_LANGUAGE_QUEUE, parser=False)
 elif BOTHUB_LANGUAGE_MODEL == "SPACY":
     nlp_language = (celery_app.nlp_spacy if settings.BOTHUB_NLP_SERVICE_WORKER else None)
-elif settings.BOTHUB_NLP_AI_PLATFORM and BOTHUB_LANGUAGE_MODEL == "BERT":
-    nlp_language, nlp_tokeziner = celery_app.nlp_bert()
+elif BOTHUB_LANGUAGE_MODEL == "BERT":
+    print("CHOOSING BERT MODEL HERE: #########")
+    nlp_language, nlp_tokenizer = celery_app.nlp_bert()
 else:
     nlp_language = None
 

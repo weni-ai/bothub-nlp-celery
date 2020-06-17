@@ -43,7 +43,7 @@ GOOGLE_APPLICATION_CREDENTIALS = config(
 
 BOTHUB_NLP_AI_PLATFORM = config("BOTHUB_NLP_AI_PLATFORM", cast=bool, default=False)
 
-BERT_MODEL_NAME = config("BERT_MODEL_NAME", default='bert-portuguese')
+BERT_MODEL_NAME = config("BERT_MODEL_NAME", default='bert_portuguese')
 
 BERT_CACHE_DIR = config("BERT_CACHE_DIR", default=None)
 
