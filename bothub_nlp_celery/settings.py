@@ -47,7 +47,7 @@ BERT_MODEL_NAME = config("BERT_MODEL_NAME", default='bert-portuguese')
 
 BERT_CACHE_DIR = config("BERT_CACHE_DIR", default=None)
 
-BOTHUB_LANGUAGE_MODEL = config("BOTHUB_LANGUAGE_MODEL", cast=Choices(["SPACY", "BERT"], default="SPACY")
+BOTHUB_LANGUAGE_MODEL = config("BOTHUB_LANGUAGE_MODEL", default="SPACY")
 
 if BOTHUB_NLP_SENTRY_CLIENT:
     init(

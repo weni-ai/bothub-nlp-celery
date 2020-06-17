@@ -14,6 +14,7 @@ from .actions import ACTION_EVALUATE
 from .actions import queue_name
 from . import settings
 
+BOTHUB_LANGUAGE_MODEL = "BERT"
 
 class CeleryService(Celery):
     @cached_property
@@ -45,6 +46,8 @@ class CeleryService(Celery):
             model_weights_defaults[settings.BERT_MODEL_NAME], cache_dir=settings.BERT_CACHE_DIR
         )
 
+        return model, tokenizer
+
 
 celery_app = CeleryService(
     "bothub_nlp_celery",
@@ -59,13 +62,14 @@ celery_app = CeleryService(
 #     else (celery_app.nlp_spacy if settings.BOTHUB_NLP_SERVICE_WORKER else None)
 # )
 
+nlp_tokeziner = None
 
 if settings.BOTHUB_NLP_AI_PLATFORM and BOTHUB_LANGUAGE_MODEL == "SPACY":
     nlp_language = spacy.load(settings.BOTHUB_NLP_LANGUAGE_QUEUE, parser=False)
 elif BOTHUB_LANGUAGE_MODEL == "SPACY":
     nlp_language = (celery_app.nlp_spacy if settings.BOTHUB_NLP_SERVICE_WORKER else None)
 elif settings.BOTHUB_NLP_AI_PLATFORM and BOTHUB_LANGUAGE_MODEL == "BERT":
-    nlp_language = celery_app.nlp_bert()
+    nlp_language, nlp_tokeziner = celery_app.nlp_bert()
 else:
     nlp_language = None
 
