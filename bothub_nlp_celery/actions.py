@@ -11,7 +11,7 @@ ACTION_TRAIN = "train"
 ACTION_EVALUATE = "evaluate"
 
 
-def queue_name(action, language):
+def queue_name(action, language, model_name):
     if settings.BOTHUB_NLP_NLU_AGROUP_LANGUAGE_QUEUE:
         return language
-    return "{}:{}".format(action, language)
+    return "{}:{}:{}".format(action, language, model_name)

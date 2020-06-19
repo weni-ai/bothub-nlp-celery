@@ -8,7 +8,6 @@ from kombu.utils.objects import cached_property
 from .actions import ACTION_PARSE
 from .actions import ACTION_DEBUG_PARSE
 from .actions import ACTION_SENTENCE_SUGGESTION
-from .actions import ACTION_WORDS_DISTIRBUTION
 from .actions import ACTION_TRAIN
 from .actions import ACTION_EVALUATE
 from .actions import queue_name
@@ -68,30 +67,29 @@ celery_app = CeleryService(
 # )
 
 nlp_tokenizer = None
-print("IFS CONDITIOONS ")
+
 if settings.BOTHUB_NLP_AI_PLATFORM and BOTHUB_LANGUAGE_MODEL == "SPACY":
     nlp_language = spacy.load(settings.BOTHUB_NLP_LANGUAGE_QUEUE, parser=False)
 elif BOTHUB_LANGUAGE_MODEL == "SPACY":
     nlp_language = (celery_app.nlp_spacy if settings.BOTHUB_NLP_SERVICE_WORKER else None)
 elif BOTHUB_LANGUAGE_MODEL == "BERT":
-    print("CHOOSING BERT MODEL HERE: #########")
     nlp_language, nlp_tokenizer = celery_app.nlp_bert()
 else:
     nlp_language = None
 
 queues_name = set(
-    [queue_name(ACTION_PARSE, lang) for lang in settings.SUPPORTED_LANGUAGES.keys()]
+    [queue_name(ACTION_PARSE, lang, BOTHUB_LANGUAGE_MODEL) for lang in settings.SUPPORTED_LANGUAGES.keys()]
     + [
-        queue_name(ACTION_DEBUG_PARSE, lang)
+        queue_name(ACTION_DEBUG_PARSE, lang, BOTHUB_LANGUAGE_MODEL)
         for lang in settings.SUPPORTED_LANGUAGES.keys()
     ]
     + [
-        queue_name(ACTION_SENTENCE_SUGGESTION, lang)
+        queue_name(ACTION_SENTENCE_SUGGESTION, lang, BOTHUB_LANGUAGE_MODEL)
         for lang in settings.SUPPORTED_LANGUAGES.keys()
     ]
-    + [queue_name(ACTION_TRAIN, lang) for lang in settings.SUPPORTED_LANGUAGES.keys()]
+    + [queue_name(ACTION_TRAIN, lang, BOTHUB_LANGUAGE_MODEL) for lang in settings.SUPPORTED_LANGUAGES.keys()]
     + [
-        queue_name(ACTION_EVALUATE, lang)
+        queue_name(ACTION_EVALUATE, lang, BOTHUB_LANGUAGE_MODEL)
         for lang in settings.SUPPORTED_LANGUAGES.keys()
     ]
 )
