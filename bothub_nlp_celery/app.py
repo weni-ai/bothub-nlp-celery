@@ -47,18 +47,18 @@ else:
     nlp_language = None
 
 queues_name = set(
-    [queue_name(ACTION_PARSE, lang) for lang in settings.SUPPORTED_LANGUAGES.keys()]
+    [queue_name(ACTION_PARSE, lang, BOTHUB_LANGUAGE_MODEL) for lang in settings.SUPPORTED_LANGUAGES.keys()]
     + [
-        queue_name(ACTION_DEBUG_PARSE, lang)
+        queue_name(ACTION_DEBUG_PARSE, lang, BOTHUB_LANGUAGE_MODEL)
         for lang in settings.SUPPORTED_LANGUAGES.keys()
     ]
     + [
-        queue_name(ACTION_SENTENCE_SUGGESTION, lang)
+        queue_name(ACTION_SENTENCE_SUGGESTION, lang, BOTHUB_LANGUAGE_MODEL)
         for lang in settings.SUPPORTED_LANGUAGES.keys()
     ]
-    + [queue_name(ACTION_TRAIN, lang) for lang in settings.SUPPORTED_LANGUAGES.keys()]
+    + [queue_name(ACTION_TRAIN, lang, BOTHUB_LANGUAGE_MODEL) for lang in settings.SUPPORTED_LANGUAGES.keys()]
     + [
-        queue_name(ACTION_EVALUATE, lang)
+        queue_name(ACTION_EVALUATE, lang, BOTHUB_LANGUAGE_MODEL)
         for lang in settings.SUPPORTED_LANGUAGES.keys()
     ]
 )
