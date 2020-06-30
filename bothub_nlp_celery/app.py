@@ -1,4 +1,5 @@
 import numpy as np
+import spacy
 
 from celery import Celery
 from kombu import Queue
@@ -7,7 +8,6 @@ from kombu.utils.objects import cached_property
 from .actions import ACTION_PARSE
 from .actions import ACTION_DEBUG_PARSE
 from .actions import ACTION_SENTENCE_SUGGESTION
-from .actions import ACTION_WORDS_DISTIRBUTION
 from .actions import ACTION_TRAIN
 from .actions import ACTION_EVALUATE
 from .actions import queue_name
@@ -18,7 +18,6 @@ class CeleryService(Celery):
     @cached_property
     def nlp_spacy(self):
         """Current nlp spacy instance."""
-        import spacy
 
         print(f"loading {settings.BOTHUB_NLP_LANGUAGE_QUEUE} spacy lang model...")
         nlp = spacy.load(settings.BOTHUB_NLP_LANGUAGE_QUEUE, parser=False)
@@ -36,7 +35,11 @@ celery_app = CeleryService(
 )
 
 
-nlp_language = celery_app.nlp_spacy if settings.BOTHUB_NLP_SERVICE_WORKER else None
+nlp_language = (
+    spacy.load(settings.AIPLATFORM_LANGUAGE_QUEUE, parser=False)
+    if settings.AIPLATFORM_LANGUAGE_QUEUE
+    else (celery_app.nlp_spacy if settings.BOTHUB_NLP_SERVICE_WORKER else None)
+)
 
 
 queues_name = set(
