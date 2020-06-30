@@ -7,7 +7,7 @@ extras_requires = {
 
 setup(
     name='bothub-nlp-celery',
-    version='0.1.16',
+    version='0.1.17',
     description='Bothub NLP Celery',
     packages=find_packages(),
     install_requires=[
