@@ -63,6 +63,4 @@ for lang in settings.SUPPORTED_LANGUAGES.keys():
         queues_name.add(queue_name(lang, ACTION_TRAIN, language_model))
         queues_name.add(queue_name(lang, ACTION_EVALUATE, language_model))
 
-print('queues:', queues_name)
-
 celery_app.conf.task_queues = [Queue(queue) for queue in queues_name]
