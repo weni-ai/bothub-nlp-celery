@@ -12,7 +12,7 @@ setup(
     packages=find_packages(),
     install_requires=[
         'celery==4.3.0',
-        'python-decouple==3.1',
+        'python-decouple==3.3',
         'sentry-sdk==0.13.2',
         'numpy==1.18.1',
         'spacy==2.1.9',
