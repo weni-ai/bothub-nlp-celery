@@ -17,5 +17,4 @@ def queue_name(language, action=None, model_name=None):
         queue += "{}:".format(action)
     if model_name is not None:
         queue += ":{}".format(model_name)
-    print('queue name:', queue)
     return queue
