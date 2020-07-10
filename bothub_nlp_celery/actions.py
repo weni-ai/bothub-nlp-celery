@@ -16,5 +16,5 @@ def queue_name(language, action=None, model_name=None):
     if not settings.BOTHUB_NLP_NLU_AGROUP_LANGUAGE_QUEUE:
         queue += "{}:".format(action)
     if model_name is not None:
-        queue += ":{}".format(model_name)
+        queue += "-{}".format(model_name)
     return queue
