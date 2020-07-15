@@ -1,5 +1,3 @@
-from googleapiclient import discovery
-from googleapiclient import errors
 from . import settings
 
 
