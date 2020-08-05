@@ -60,8 +60,6 @@ BOTHUB_NLP_AI_PLATFORM = config("BOTHUB_NLP_AI_PLATFORM", cast=bool, default=Fal
 
 BERT_MODEL_NAME = config("BERT_MODEL_NAME", default='bert_portuguese')
 
-BERT_CACHE_DIR = config("BERT_CACHE_DIR", default=None)
-
 SUPPORTED_LANGUAGE_MODELS = config(
     "SUPPORTED_LANGUAGE_MODELS", default="SPACY|BERT", cast=cast_supported_languages
 )
