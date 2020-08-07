@@ -66,6 +66,10 @@ SUPPORTED_LANGUAGE_MODELS = config(
 
 BOTHUB_LANGUAGE_MODEL = config("BOTHUB_LANGUAGE_MODEL", default=None)
 
+SPACY_LANGUAGES = ["en", "pt_br", "xx", "es", "fr", "ru"]
+
+BERT_LANGUAGES = ["pt_br", "en"]
+
 if BOTHUB_NLP_SENTRY_CLIENT:
     init(
         dsn=BOTHUB_NLP_SENTRY,
