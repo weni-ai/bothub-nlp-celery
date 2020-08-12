@@ -58,7 +58,7 @@ if settings.BOTHUB_LANGUAGE_MODEL == "SPACY":
     nlp_language = (celery_app.nlp_spacy if settings.BOTHUB_NLP_SERVICE_WORKER else None)
 elif settings.AIPLATFORM_LANGUAGE_MODEL == "SPACY":
     import spacy
-    nlp_language = spacy.load(settings.BOTHUB_NLP_LANGUAGE_QUEUE, parser=False)
+    nlp_language = spacy.load(settings.AIPLATFORM_LANGUAGE_QUEUE, parser=False)
 else:
     nlp_language = None
 
