@@ -1,3 +1,6 @@
+from . import settings
+
+
 ALGORITHM_TO_LANGUAGE_MODEL = {
     "neural_network_internal": None,
     "neural_network_external": "SPACY",
@@ -28,8 +31,17 @@ def get_algorithm_info():
     ]
 
 
-def choose_best_algorithm(language):
+def get_language_model(update, language):
+    model = ALGORITHM_TO_LANGUAGE_MODEL[update.get('algorithm')]
+    if (model == 'SPACY' and language not in settings.SPACY_LANGUAGES) or (
+        model == 'BERT' and language not in settings.BERT_LANGUAGES):
+        model = None
+    elif model is None and update.get('use_name_entities') and language in settings.SPACY_LANGUAGES:
+        model = 'SPACY'
+    return model
 
+
+def choose_best_algorithm(language):
     supported_algorithms = get_algorithm_info()
 
     for model in supported_algorithms[:-1]:
