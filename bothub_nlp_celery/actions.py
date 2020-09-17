@@ -5,6 +5,7 @@ ACTION_PARSE = "parse"
 ACTION_DEBUG_PARSE = "debug_parse"
 ACTION_SENTENCE_SUGGESTION = "sentence_suggestion"
 ACTION_WORDS_DISTIRBUTION = "words_distribution"
+ACTION_SCORE_CALCULATION = "score_calculation"
 ACTION_TRAIN = "train"
 ACTION_EVALUATE = "evaluate"
 
