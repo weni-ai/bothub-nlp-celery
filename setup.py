@@ -16,6 +16,7 @@ setup(
         'sentry-sdk==0.13.2',
         'numpy==1.18.1',
         'spacy==2.1.9',
+        'vine~=1.3.0',
     ],
     extras_require=extras_requires,
 )
