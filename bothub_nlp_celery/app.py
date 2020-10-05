@@ -32,8 +32,6 @@ class CeleryService(Celery):
 
         from bothub_nlp_rasa_utils.pipeline_components.registry import (
             model_class_dict,
-            model_weights_defaults,
-            model_tokenizer_dict,
             from_pt_dict,
         )
 
