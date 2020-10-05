@@ -31,13 +31,23 @@ def get_algorithm_info():
     ]
 
 
-def get_language_model(update, language):
+def get_language_model(update):
     model = ALGORITHM_TO_LANGUAGE_MODEL[update.get('algorithm')]
-    if (model == 'SPACY' and language not in settings.SPACY_LANGUAGES) or (
-        model == 'BERT' and language not in settings.BERT_LANGUAGES):
+    language = update.get('language')
+
+    if (model == "SPACY" and language not in settings.SPACY_LANGUAGES) or (
+        model == "BERT" and language not in settings.BERT_LANGUAGES
+    ):
         model = None
-    elif model is None and update.get('use_name_entities') and language in settings.SPACY_LANGUAGES:
-        model = 'SPACY'
+
+    # Send parse to SPACY worker to use name_entities (only if BERT not in use)
+    if (
+        (update.get("use_name_entities"))
+        and (model is None)
+        and (language in settings.SPACY_LANGUAGES)
+    ):
+        model = "SPACY"
+
     return model
 
 
