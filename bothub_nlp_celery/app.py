@@ -18,6 +18,7 @@ class CeleryService(Celery):
     def nlp_spacy(self):
         """Current nlp spacy instance."""
         import spacy
+
         print(f"loading {settings.BOTHUB_NLP_LANGUAGE_QUEUE} spacy lang model...")
         nlp = spacy.load(settings.BOTHUB_NLP_LANGUAGE_QUEUE, parser=False)
         if nlp.vocab.vectors_length >= 0:
@@ -32,15 +33,11 @@ class CeleryService(Celery):
 
         from bothub_nlp_rasa_utils.pipeline_components.registry import (
             model_class_dict,
-            model_weights_defaults,
-            model_tokenizer_dict,
             from_pt_dict,
         )
 
-        from transformers import TFBertModel
-
         model = model_class_dict[settings.BERT_MODEL_NAME].from_pretrained(
-            'model', from_pt=from_pt_dict.get(settings.BERT_MODEL_NAME, False)
+            "model", from_pt=from_pt_dict.get(settings.BERT_MODEL_NAME, False)
         )
 
         return model
@@ -55,9 +52,10 @@ celery_app = CeleryService(
 
 nlp_tokenizer = None
 if settings.BOTHUB_LANGUAGE_MODEL == "SPACY":
-    nlp_language = (celery_app.nlp_spacy if settings.BOTHUB_NLP_SERVICE_WORKER else None)
+    nlp_language = celery_app.nlp_spacy if settings.BOTHUB_NLP_SERVICE_WORKER else None
 elif settings.AIPLATFORM_LANGUAGE_MODEL == "SPACY":
     import spacy
+
     nlp_language = spacy.load(settings.AIPLATFORM_LANGUAGE_QUEUE, parser=False)
 else:
     nlp_language = None
