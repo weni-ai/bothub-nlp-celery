@@ -52,13 +52,11 @@ BOTHUB_NLP_SERVICE_WORKER = config(
     "BOTHUB_NLP_SERVICE_WORKER", cast=bool, default=False
 )
 
-GOOGLE_APPLICATION_CREDENTIALS = config(
-    "GOOGLE_APPLICATION_CREDENTIALS", default=None
-)
+GOOGLE_APPLICATION_CREDENTIALS = config("GOOGLE_APPLICATION_CREDENTIALS", default=None)
 
 BOTHUB_NLP_AI_PLATFORM = config("BOTHUB_NLP_AI_PLATFORM", cast=bool, default=False)
 
-BERT_MODEL_NAME = config("BERT_MODEL_NAME", default='bert_portuguese')
+BERT_MODEL_NAME = config("BERT_MODEL_NAME", default="bert_portuguese")
 
 SUPPORTED_LANGUAGE_MODELS = config(
     "SUPPORTED_LANGUAGE_MODELS", default="SPACY|BERT", cast=cast_supported_languages
