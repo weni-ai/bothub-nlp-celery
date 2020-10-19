@@ -18,7 +18,7 @@ def get_algorithm_info():
     return [
         {
             "name": "transformer_network_diet_bert",
-            "supported_languages": ["pt_br", "en"],
+            "supported_languages": ["all"],
         },
         {"name": "transformer_network_diet_word_embedding", "supported_languages": []},
         {"name": "transformer_network_diet", "supported_languages": ["all"]},
@@ -29,9 +29,7 @@ def get_language_model(update):
     model = ALGORITHM_TO_LANGUAGE_MODEL[update.get("algorithm")]
     language = update.get("language")
 
-    if (model == "SPACY" and language not in settings.SPACY_LANGUAGES) or (
-        model == "BERT" and language not in settings.BERT_LANGUAGES
-    ):
+    if model == "SPACY" and language not in settings.SPACY_LANGUAGES:
         model = None
 
     # Send parse to SPACY worker to use name_entities (only if BERT not in use)
