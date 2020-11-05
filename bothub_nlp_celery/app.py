@@ -1,4 +1,5 @@
 import numpy as np
+import os
 
 from celery import Celery
 from kombu import Queue
@@ -34,13 +35,26 @@ class CeleryService(Celery):
         from bothub_nlp_rasa_utils.pipeline_components.registry import (
             model_class_dict,
             from_pt_dict,
+            model_weights_defaults,
+            model_tokenizer_dict,
+            language_to_model
         )
 
-        model = model_class_dict[settings.BERT_MODEL_NAME].from_pretrained(
-            "model", from_pt=from_pt_dict.get(settings.BERT_MODEL_NAME, False)
+        model_name = language_to_model[settings.BOTHUB_NLP_LANGUAGE_QUEUE]
+
+        bert_tokenizer = model_tokenizer_dict[model_name].from_pretrained(
+            model_weights_defaults[model_name], cache_dir=None
         )
 
-        return model
+        cur_dir = os.getcwd().split("/")[-1]
+        if cur_dir == "tests":
+            os.chdir("../")
+        bert_model = model_class_dict[model_name].from_pretrained(
+            model_name, cache_dir=None,
+            from_pt=from_pt_dict.get(model_name, False)
+        )
+
+        return bert_tokenizer, bert_model
 
 
 celery_app = CeleryService(
@@ -49,14 +63,14 @@ celery_app = CeleryService(
     backend=settings.BOTHUB_NLP_CELERY_BACKEND_URL,
 )
 
-
 nlp_tokenizer = None
 if settings.BOTHUB_LANGUAGE_MODEL == "SPACY":
     nlp_language = celery_app.nlp_spacy if settings.BOTHUB_NLP_SERVICE_WORKER else None
 elif settings.AIPLATFORM_LANGUAGE_MODEL == "SPACY":
     import spacy
-
     nlp_language = spacy.load(settings.AIPLATFORM_LANGUAGE_QUEUE, parser=False)
+elif settings.BOTHUB_LANGUAGE_MODEL == "BERT":
+    nlp_language = celery_app.nlp_bert
 else:
     nlp_language = None
 

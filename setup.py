@@ -11,7 +11,7 @@ setup(
     description='Bothub NLP Celery',
     packages=find_packages(),
     install_requires=[
-        'celery==4.3.0',
+        'celery==4.4.0',
         'python-decouple==3.3',
         'sentry-sdk==0.13.2',
         'numpy==1.18.1',
