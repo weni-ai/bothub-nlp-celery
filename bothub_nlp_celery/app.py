@@ -46,13 +46,6 @@ class CeleryService(Celery):
             model_weights_defaults[model_name], cache_dir=None
         )
 
-        # This is a path fix for unit tests
-        cur_dir = os.getcwd()
-        print(cur_dir)
-        cur_dir = cur_dir.split("/")[-1]
-        if cur_dir == "tests":
-            os.chdir("../")
-
         bert_model = model_class_dict[model_name].from_pretrained(
             model_name, cache_dir=None,
             from_pt=from_pt_dict.get(model_name, False)
@@ -67,7 +60,6 @@ celery_app = CeleryService(
     backend=settings.BOTHUB_NLP_CELERY_BACKEND_URL,
 )
 
-print(os.environ.get('BOTHUB_LANGUAGE_MODEL'))
 nlp_tokenizer = None
 if settings.BOTHUB_LANGUAGE_MODEL == "SPACY":
     nlp_language = celery_app.nlp_spacy if settings.BOTHUB_NLP_SERVICE_WORKER else None
