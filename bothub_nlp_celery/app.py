@@ -46,9 +46,11 @@ class CeleryService(Celery):
             model_weights_defaults[model_name], cache_dir=None
         )
 
+        # This is a path fix for unit tests
         cur_dir = os.getcwd().split("/")[-1]
         if cur_dir == "tests":
             os.chdir("../")
+
         bert_model = model_class_dict[model_name].from_pretrained(
             model_name, cache_dir=None,
             from_pt=from_pt_dict.get(model_name, False)
