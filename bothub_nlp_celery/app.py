@@ -47,7 +47,9 @@ class CeleryService(Celery):
         )
 
         # This is a path fix for unit tests
-        cur_dir = os.getcwd().split("/")[-1]
+        cur_dir = os.getcwd()
+        print(cur_dir)
+        cur_dir = cur_dir.split("/")[-1]
         if cur_dir == "tests":
             os.chdir("../")
 
@@ -65,6 +67,7 @@ celery_app = CeleryService(
     backend=settings.BOTHUB_NLP_CELERY_BACKEND_URL,
 )
 
+print(os.environ.get('BOTHUB_LANGUAGE_MODEL'))
 nlp_tokenizer = None
 if settings.BOTHUB_LANGUAGE_MODEL == "SPACY":
     nlp_language = celery_app.nlp_spacy if settings.BOTHUB_NLP_SERVICE_WORKER else None
