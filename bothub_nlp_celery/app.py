@@ -66,8 +66,25 @@ if settings.BOTHUB_LANGUAGE_MODEL == "SPACY":
 elif settings.AIPLATFORM_LANGUAGE_MODEL == "SPACY":
     import spacy
     nlp_language = spacy.load(settings.AIPLATFORM_LANGUAGE_QUEUE, parser=False)
-elif settings.BOTHUB_LANGUAGE_MODEL == "BERT" or settings.AIPLATFORM_LANGUAGE_MODEL == "BERT":
+elif settings.BOTHUB_LANGUAGE_MODEL == "BERT":
     nlp_language = celery_app.nlp_bert
+elif settings.AIPLATFORM_LANGUAGE_MODEL == "BERT":
+    from bothub_nlp_rasa_utils.pipeline_components.registry import (
+        model_class_dict,
+        from_pt_dict,
+        model_weights_defaults,
+        model_tokenizer_dict,
+        language_to_model
+    )
+    model_name = language_to_model[settings.BOTHUB_NLP_LANGUAGE_QUEUE]
+    bert_tokenizer = model_tokenizer_dict[model_name].from_pretrained(
+        model_weights_defaults[model_name], cache_dir=None
+    )
+    bert_model = model_class_dict[model_name].from_pretrained(
+        model_name, cache_dir=None,
+        from_pt=from_pt_dict.get(model_name, False)
+    )
+    nlp_language = bert_tokenizer, bert_model
 else:
     nlp_language = None
 
