@@ -66,7 +66,7 @@ if settings.BOTHUB_LANGUAGE_MODEL == "SPACY":
 elif settings.AIPLATFORM_LANGUAGE_MODEL == "SPACY":
     import spacy
     nlp_language = spacy.load(settings.AIPLATFORM_LANGUAGE_QUEUE, parser=False)
-elif settings.BOTHUB_LANGUAGE_MODEL == "BERT":
+elif settings.BOTHUB_LANGUAGE_MODEL == "BERT" or settings.AIPLATFORM_LANGUAGE_MODEL == "BERT":
     nlp_language = celery_app.nlp_bert
 else:
     nlp_language = None
