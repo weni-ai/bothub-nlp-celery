@@ -32,7 +32,7 @@ class CeleryService(Celery):
     def nlp_bert(self):
         print(f"loading {settings.BOTHUB_NLP_LANGUAGE_QUEUE} bert lang model...")
 
-        from bothub_nlp_rasa_utils.pipeline_components.registry import (
+        from bothub.utils.pipeline_components.registry import (
             model_class_dict,
             from_pt_dict,
             model_weights_defaults,
