@@ -10,12 +10,18 @@ ACTION_WORDS_DISTIRBUTION = "words_distribution"
 ACTION_SCORE_CALCULATION = "score_calculation"
 ACTION_TRAIN = "train"
 ACTION_EVALUATE = "evaluate"
+ACTION_QUESTION_ANSWERING = "question_answering"
 
 
 def queue_name(language, action=None, model_name=None):
     queue = language
-    if not settings.BOTHUB_NLP_NLU_AGROUP_LANGUAGE_QUEUE:
-        queue += "{}:".format(action)
-    if model_name is not None:
-        queue += "-{}".format(model_name)
+    # if not settings.BOTHUB_NLP_NLU_AGROUP_LANGUAGE_QUEUE:
+    #     queue += "{}:".format(action)
+    if model_name == "QA":
+        if language not in ['en', 'pt_br']:
+            queue = f"multilang-{model_name}"
+        else:
+            queue += f"-{model_name}"
+    elif model_name is not None:
+        queue += f"-{model_name}"
     return queue
