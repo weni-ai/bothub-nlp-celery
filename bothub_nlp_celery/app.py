@@ -64,62 +64,29 @@ class CeleryService(Celery):
 
         print(f"Loading QA models...")
 
-        model = model_info.get('pt_br')
-        try:
-            pt_br_model = QuestionAnsweringModel(
-                model.get('type'),
-                model.get('dir'),
-                args=model.get('args'),
-                use_cuda=True
-            )
-        except ValueError as err:
-            print(err)
-            pt_br_model = QuestionAnsweringModel(
-                model.get('type'),
-                model.get('dir'),
-                args=model.get('args'),
-                use_cuda=False
-            )
-
-        model = model_info.get('en')
-        try:
-            en_model = QuestionAnsweringModel(
-                model.get('type'),
-                model.get('dir'),
-                args=model.get('args'),
-                use_cuda=True
-            )
-        except ValueError as err:
-            print(err)
-            en_model = QuestionAnsweringModel(
-                model.get('type'),
-                model.get('dir'),
-                args=model.get('args'),
-                use_cuda=False
-            )
-
-        model = model_info.get('multilang')
-        try:
-            multilang_model = QuestionAnsweringModel(
-                model.get('type'),
-                model.get('dir'),
-                args=model.get('args'),
-                use_cuda=True
-            )
-        except ValueError as err:
-            print(err)
-            multilang_model = QuestionAnsweringModel(
-                model.get('type'),
-                model.get('dir'),
-                args=model.get('args'),
-                use_cuda=False
-            )
-
         models = {
-            "pt_br": pt_br_model,
-            "en": en_model,
-            "multilang": multilang_model
+            "pt_br": None,
+            "en": None,
+            "multilang": None
         }
+
+        for model in models.keys():
+            model_data = model_info.get(model)
+            try:
+                models[model] = QuestionAnsweringModel(
+                    model_data.get('type'),
+                    model_data.get('dir'),
+                    args=model_data.get('args'),
+                    use_cuda=True
+                )
+            except ValueError as err:
+                print(err)
+                models[model] = QuestionAnsweringModel(
+                    model_data.get('type'),
+                    model_data.get('dir'),
+                    args=model_data.get('args'),
+                    use_cuda=False
+                )
 
         return models
 
