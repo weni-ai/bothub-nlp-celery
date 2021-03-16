@@ -57,28 +57,71 @@ class CeleryService(Celery):
     def qa_model(self):
         """
         Must be called from question-answering module
-        :return: Loaded cached QA-MODEL
+        :return: Loaded cached QA-MODELS
         """
-        from utils import model_info, language_to_model, model_dir
-
-        language = settings.BOTHUB_NLP_LANGUAGE_QUEUE
-        model = language_to_model.get(language, "multilang")
-        model_dir = model_dir.get(model)
-
-        print(f"Loading {model} QA model...")
-        model_dict = model_info.get(model)
-
+        from utils import model_info
         from simpletransformers.question_answering import QuestionAnsweringModel
 
+        print(f"Loading QA models...")
+
+        model = model_info.get('pt_br')
         try:
-            model = QuestionAnsweringModel(model_dict.get('type'), model_dir, args=model_dict.get('args'),
-                                           use_cuda=True)
+            pt_br_model = QuestionAnsweringModel(
+                model.get('type'),
+                model.get('dir'),
+                args=model.get('args'),
+                use_cuda=True
+            )
         except ValueError as err:
             print(err)
-            model = QuestionAnsweringModel(model_dict.get('type'), model_dir, args=model_dict.get('args'),
-                                           use_cuda=False)
+            pt_br_model = QuestionAnsweringModel(
+                model.get('type'),
+                model.get('dir'),
+                args=model.get('args'),
+                use_cuda=False
+            )
 
-        return model
+        model = model_info.get('en')
+        try:
+            en_model = QuestionAnsweringModel(
+                model.get('type'),
+                model.get('dir'),
+                args=model.get('args'),
+                use_cuda=True
+            )
+        except ValueError as err:
+            print(err)
+            en_model = QuestionAnsweringModel(
+                model.get('type'),
+                model.get('dir'),
+                args=model.get('args'),
+                use_cuda=False
+            )
+
+        model = model_info.get('multilang')
+        try:
+            multilang_model = QuestionAnsweringModel(
+                model.get('type'),
+                model.get('dir'),
+                args=model.get('args'),
+                use_cuda=True
+            )
+        except ValueError as err:
+            print(err)
+            multilang_model = QuestionAnsweringModel(
+                model.get('type'),
+                model.get('dir'),
+                args=model.get('args'),
+                use_cuda=False
+            )
+
+        models = {
+            "pt_br": pt_br_model,
+            "en": en_model,
+            "multilang": multilang_model
+        }
+
+        return models
 
 
 celery_app = CeleryService(
