@@ -5,12 +5,12 @@ from celery import Celery
 from kombu import Queue
 from kombu.utils.objects import cached_property
 
-from .actions import ACTION_PARSE
-from .actions import ACTION_DEBUG_PARSE
-from .actions import ACTION_SENTENCE_SUGGESTION
-from .actions import ACTION_TRAIN
-from .actions import ACTION_EVALUATE
-from .actions import queue_name
+# from .actions import ACTION_PARSE
+# from .actions import ACTION_DEBUG_PARSE
+# from .actions import ACTION_SENTENCE_SUGGESTION
+# from .actions import ACTION_TRAIN
+# from .actions import ACTION_EVALUATE
+# from .actions import queue_name
 from . import settings
 
 
@@ -60,7 +60,7 @@ celery_app = CeleryService(
     backend=settings.BOTHUB_NLP_CELERY_BACKEND_URL,
 )
 
-nlp_tokenizer = None
+# nlp_tokenizer = None
 if settings.BOTHUB_LANGUAGE_MODEL == "SPACY":
     nlp_language = celery_app.nlp_spacy if settings.BOTHUB_NLP_SERVICE_WORKER else None
 elif settings.AIPLATFORM_LANGUAGE_MODEL == "SPACY":
@@ -71,19 +71,18 @@ elif settings.BOTHUB_LANGUAGE_MODEL == "BERT":
 else:
     nlp_language = None
 
-
-queues_name = set()
-for lang in settings.SUPPORTED_LANGUAGES.keys():
-    queues_name.add(queue_name(lang, ACTION_PARSE))
-    queues_name.add(queue_name(lang, ACTION_DEBUG_PARSE))
-    queues_name.add(queue_name(lang, ACTION_SENTENCE_SUGGESTION))
-    queues_name.add(queue_name(lang, ACTION_TRAIN))
-    queues_name.add(queue_name(lang, ACTION_EVALUATE))
-    for language_model in settings.SUPPORTED_LANGUAGE_MODELS.keys():
-        queues_name.add(queue_name(lang, ACTION_PARSE, language_model))
-        queues_name.add(queue_name(lang, ACTION_DEBUG_PARSE, language_model))
-        queues_name.add(queue_name(lang, ACTION_SENTENCE_SUGGESTION, language_model))
-        queues_name.add(queue_name(lang, ACTION_TRAIN, language_model))
-        queues_name.add(queue_name(lang, ACTION_EVALUATE, language_model))
-
-celery_app.conf.task_queues = [Queue(queue) for queue in queues_name]
+# queues_name = set()
+# for lang in settings.SUPPORTED_LANGUAGES.keys():
+#     queues_name.add(queue_name(lang, ACTION_PARSE))
+#     queues_name.add(queue_name(lang, ACTION_DEBUG_PARSE))
+#     queues_name.add(queue_name(lang, ACTION_SENTENCE_SUGGESTION))
+#     queues_name.add(queue_name(lang, ACTION_TRAIN))
+#     queues_name.add(queue_name(lang, ACTION_EVALUATE))
+#     for language_model in settings.SUPPORTED_LANGUAGE_MODELS.keys():
+#         queues_name.add(queue_name(lang, ACTION_PARSE, language_model))
+#         queues_name.add(queue_name(lang, ACTION_DEBUG_PARSE, language_model))
+#         queues_name.add(queue_name(lang, ACTION_SENTENCE_SUGGESTION, language_model))
+#         queues_name.add(queue_name(lang, ACTION_TRAIN, language_model))
+#         queues_name.add(queue_name(lang, ACTION_EVALUATE, language_model))
+#
+# celery_app.conf.task_queues = [Queue(queue) for queue in queues_name]
