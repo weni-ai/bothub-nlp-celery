@@ -53,6 +53,43 @@ class CeleryService(Celery):
 
         return bert_tokenizer, bert_model
 
+    @cached_property
+    def qa_model(self):
+        """
+        Must be called from question-answering module
+        :return: Loaded cached QA-MODELS
+        """
+        from utils import model_info
+        from simpletransformers.question_answering import QuestionAnsweringModel
+
+        print(f"Loading QA models...")
+
+        models = {
+            "pt_br": None,
+            "en": None,
+            "multilang": None
+        }
+
+        for model in models.keys():
+            model_data = model_info.get(model)
+            try:
+                models[model] = QuestionAnsweringModel(
+                    model_data.get('type'),
+                    model_data.get('dir'),
+                    args=model_data.get('args'),
+                    use_cuda=True
+                )
+            except ValueError as err:
+                print(err)
+                models[model] = QuestionAnsweringModel(
+                    model_data.get('type'),
+                    model_data.get('dir'),
+                    args=model_data.get('args'),
+                    use_cuda=False
+                )
+
+        return models
+
 
 celery_app = CeleryService(
     "bothub_nlp_celery",
