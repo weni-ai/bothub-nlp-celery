@@ -14,8 +14,6 @@ ACTION_EVALUATE = "evaluate"
 
 def queue_name(language, action=None, model_name=None):
     queue = language
-    # if not settings.BOTHUB_NLP_NLU_AGROUP_LANGUAGE_QUEUE:
-    #     queue += "{}:".format(action)
     if model_name == "QA":
         if language not in ['en', 'pt_br']:
             queue = f"multilang-{model_name}"
