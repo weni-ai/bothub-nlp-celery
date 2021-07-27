@@ -1,6 +1,3 @@
-from . import settings
-
-
 ACTION_PARSE = "parse"
 ACTION_DEBUG_PARSE = "debug_parse"
 ACTION_SENTENCE_SUGGESTION = "sentence_suggestion"
@@ -15,7 +12,7 @@ ACTION_EVALUATE = "evaluate"
 def queue_name(language, action=None, model_name=None):
     queue = language
     if model_name == "QA":
-        if language not in ['en', 'pt_br']:
+        if language not in ["en", "pt_br"]:
             queue = f"multilang-{model_name}"
         else:
             queue += f"-{model_name}"

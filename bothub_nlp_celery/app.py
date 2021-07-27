@@ -1,8 +1,6 @@
 import numpy as np
-import os
 
 from celery import Celery
-from kombu import Queue
 from kombu.utils.objects import cached_property
 
 from . import settings
@@ -31,7 +29,7 @@ class CeleryService(Celery):
             from_pt_dict,
             model_weights_defaults,
             model_tokenizer_dict,
-            language_to_model
+            language_to_model,
         )
 
         model_name = language_to_model[settings.BOTHUB_NLP_LANGUAGE_QUEUE]
@@ -41,8 +39,7 @@ class CeleryService(Celery):
         )
 
         bert_model = model_class_dict[model_name].from_pretrained(
-            model_name, cache_dir=None,
-            from_pt=from_pt_dict.get(model_name, False)
+            model_name, cache_dir=None, from_pt=from_pt_dict.get(model_name, False)
         )
 
         return bert_tokenizer, bert_model
@@ -58,28 +55,24 @@ class CeleryService(Celery):
 
         print(f"Loading QA models...")
 
-        models = {
-            "pt_br": None,
-            "en": None,
-            "multilang": None
-        }
+        models = {"pt_br": None, "en": None, "multilang": None}
 
         for model in models.keys():
             model_data = model_info.get(model)
             try:
                 models[model] = QuestionAnsweringModel(
-                    model_data.get('type'),
-                    model_data.get('dir'),
-                    args=model_data.get('args'),
-                    use_cuda=True
+                    model_data.get("type"),
+                    model_data.get("dir"),
+                    args=model_data.get("args"),
+                    use_cuda=True,
                 )
             except ValueError as err:
                 print(err)
                 models[model] = QuestionAnsweringModel(
-                    model_data.get('type'),
-                    model_data.get('dir'),
-                    args=model_data.get('args'),
-                    use_cuda=False
+                    model_data.get("type"),
+                    model_data.get("dir"),
+                    args=model_data.get("args"),
+                    use_cuda=False,
                 )
 
         return models
@@ -95,6 +88,7 @@ if settings.BOTHUB_LANGUAGE_MODEL == "SPACY":
     nlp_language = celery_app.nlp_spacy if settings.BOTHUB_NLP_SERVICE_WORKER else None
 elif settings.AIPLATFORM_LANGUAGE_MODEL == "SPACY":
     import spacy
+
     nlp_language = spacy.load(settings.AIPLATFORM_LANGUAGE_QUEUE, parser=False)
 elif settings.BOTHUB_LANGUAGE_MODEL == "BERT":
     nlp_language = celery_app.nlp_bert
