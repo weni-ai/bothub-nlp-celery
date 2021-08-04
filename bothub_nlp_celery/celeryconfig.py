@@ -6,9 +6,7 @@ result_backend = settings.BOTHUB_NLP_CELERY_BACKEND_URL
 
 # Tasks configuration
 task_annotations = {
-    tasks.TASK_NLU_PARSE_TEXT: {
-        'time_limit': settings.TASK_PARSE_TIME_LIMIT,
-    },
+    tasks.TASK_NLU_PARSE_TEXT: {"time_limit": settings.TASK_PARSE_TIME_LIMIT}
 }
 task_time_limit = settings.TASK_GENERAL_TIME_LIMIT
 
