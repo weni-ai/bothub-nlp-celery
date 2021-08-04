@@ -3,7 +3,7 @@ import numpy as np
 from celery import Celery
 from kombu.utils.objects import cached_property
 
-from . import settings, celeryconfig, tasks, celeryconfig
+from . import settings, celeryconfig, tasks
 
 
 class CeleryService(Celery):
