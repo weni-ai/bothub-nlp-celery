@@ -11,6 +11,13 @@ task_annotations = {
 task_time_limit = settings.TASK_GENERAL_TIME_LIMIT
 
 # Redis configuration
+
+# The Redis backend supports health checks.
+# This value must be set as an integer whose value is the number of seconds between health checks.
+# If a ConnectionError or a TimeoutError is encountered during the health check,
+# the connection will be re-established and the command retried exactly once.
+redis_backend_health_check_interval = settings.REDIS_BACKEND_HEALTH_CHECK_INTERVAL
+
 # Socket timeout for connections to Redis from the result backend in seconds (int/float)
 redis_socket_connect_timeout = settings.REDIS_SOCKET_CONNECT_TIMEOUT
 
