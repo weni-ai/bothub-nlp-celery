@@ -3,7 +3,7 @@ import numpy as np
 from celery import Celery
 from kombu.utils.objects import cached_property
 
-from . import settings
+from . import settings, celeryconfig
 
 
 class CeleryService(Celery):
@@ -78,11 +78,8 @@ class CeleryService(Celery):
         return models
 
 
-celery_app = CeleryService(
-    "bothub_nlp_celery",
-    broker=settings.BOTHUB_NLP_CELERY_BROKER_URL,
-    backend=settings.BOTHUB_NLP_CELERY_BACKEND_URL,
-)
+celery_app = CeleryService("bothub_nlp_celery")
+celery_app.config_from_object(celeryconfig)
 
 if settings.BOTHUB_LANGUAGE_MODEL == "SPACY":
     nlp_language = celery_app.nlp_spacy if settings.BOTHUB_NLP_SERVICE_WORKER else None
