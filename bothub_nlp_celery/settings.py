@@ -39,7 +39,7 @@ GOOGLE_APPLICATION_CREDENTIALS = config("GOOGLE_APPLICATION_CREDENTIALS", defaul
 BOTHUB_NLP_LANGUAGE_QUEUE = config("BOTHUB_NLP_LANGUAGE_QUEUE", default="en")
 BOTHUB_LANGUAGE_MODEL = config("BOTHUB_LANGUAGE_MODEL", default=None)
 
-SPACY_LANGUAGES = ["en", "pt_br", "xx", "es", "fr", "ru"]
+SPACY_LANGUAGES = ["en", "pt_br", "es", "fr", "ru"]
 
 BERT_LANGUAGES = ["pt_br", "en"]
 
