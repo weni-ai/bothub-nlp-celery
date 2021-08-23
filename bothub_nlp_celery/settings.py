@@ -2,12 +2,6 @@ import argparse
 from sentry_sdk import init
 from sentry_sdk.integrations.celery import CeleryIntegration
 from decouple import config
-from collections import OrderedDict
-
-
-def cast_supported_languages(i):
-    return OrderedDict([x.split(":", 1) if ":" in x else (x, x) for x in i.split("|")])
-
 
 PARSER = argparse.ArgumentParser()
 
@@ -21,9 +15,6 @@ BOTHUB_NLP_CELERY_BACKEND_URL = config(
     "BOTHUB_NLP_CELERY_BACKEND_URL", default=BOTHUB_NLP_CELERY_BROKER_URL
 )
 
-BOTHUB_NLP_NLU_AGROUP_LANGUAGE_QUEUE = config(
-    "BOTHUB_NLP_NLU_AGROUP_LANGUAGE_QUEUE", cast=bool, default=True
-)
 
 BOTHUB_NLP_SENTRY_CLIENT = config(
     "BOTHUB_NLP_CELERY_SENTRY_CLIENT", cast=bool, default=False
@@ -31,21 +22,12 @@ BOTHUB_NLP_SENTRY_CLIENT = config(
 
 BOTHUB_NLP_SENTRY = config("BOTHUB_NLP_CELERY_SENTRY", default=None)
 
-SUPPORTED_LANGUAGES = config(
-    "SUPPORTED_LANGUAGES", default="en|pt", cast=cast_supported_languages
-)
-
-BOTHUB_NLP_LANGUAGE_QUEUE = config("BOTHUB_NLP_LANGUAGE_QUEUE", default="en")
-
 # Input Arguments
 PARSER.add_argument("--AIPLATFORM_LANGUAGE_QUEUE", type=str, default=None)
-
 PARSER.add_argument("--AIPLATFORM_LANGUAGE_MODEL", type=str, default=None)
 
 ARGUMENTS, _ = PARSER.parse_known_args()
-
 AIPLATFORM_LANGUAGE_QUEUE = ARGUMENTS.AIPLATFORM_LANGUAGE_QUEUE
-
 AIPLATFORM_LANGUAGE_MODEL = ARGUMENTS.AIPLATFORM_LANGUAGE_MODEL
 
 BOTHUB_NLP_SERVICE_WORKER = config(
@@ -54,14 +36,7 @@ BOTHUB_NLP_SERVICE_WORKER = config(
 
 GOOGLE_APPLICATION_CREDENTIALS = config("GOOGLE_APPLICATION_CREDENTIALS", default=None)
 
-BOTHUB_NLP_AI_PLATFORM = config("BOTHUB_NLP_AI_PLATFORM", cast=bool, default=False)
-
-BERT_MODEL_NAME = config("BERT_MODEL_NAME", default="bert_portuguese")
-
-SUPPORTED_LANGUAGE_MODELS = config(
-    "SUPPORTED_LANGUAGE_MODELS", default="SPACY|BERT", cast=cast_supported_languages
-)
-
+BOTHUB_NLP_LANGUAGE_QUEUE = config("BOTHUB_NLP_LANGUAGE_QUEUE", default="en")
 BOTHUB_LANGUAGE_MODEL = config("BOTHUB_LANGUAGE_MODEL", default=None)
 
 SPACY_LANGUAGES = ["en", "pt_br", "xx", "es", "fr", "ru"]
@@ -74,3 +49,14 @@ if BOTHUB_NLP_SENTRY_CLIENT:
         environment=ENVIRONMENT,
         integrations=[CeleryIntegration()],
     )
+
+# Time Limits
+TASK_GENERAL_TIME_LIMIT = config("TASK_GENERAL_TIME_LIMIT", cast=int, default=120)
+TASK_PARSE_TIME_LIMIT = config("TASK_PARSE_TIME_LIMIT", cast=int, default=10)
+
+# Redis settings
+REDIS_BACKEND_HEALTH_CHECK_INTERVAL = config("REDIS_BACKEND_HEALTH_CHECK_INTERVAL", default=None)
+REDIS_SOCKET_CONNECT_TIMEOUT = config("REDIS_SOCKET_CONNECT_TIMEOUT", default=None)
+REDIS_SOCKET_TIMEOUT = config("REDIS_SOCKET_TIMEOUT", cast=int, default=120)
+REDIS_RETRY_ON_TIMEOUT = config("REDIS_RETRY_ON_TIMEOUT", cast=bool, default=False)
+REDIS_SOCKET_KEEPALIVE = config("REDIS_SOCKET_KEEPALIVE", cast=bool, default=False)
