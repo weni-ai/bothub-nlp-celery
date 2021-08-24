@@ -66,7 +66,7 @@ REDIS_SOCKET_KEEPALIVE = config("REDIS_SOCKET_KEEPALIVE", cast=bool, default=Fal
 
 # Queue settings
 def cast_language_list(ls):
-    return [lang.strip() for lang in ls.split("|")]
+    return [lang.strip() for lang in ls.split("|") if lang.strip()]
 
 
 # Available languages with word2vec models
