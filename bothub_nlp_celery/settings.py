@@ -83,5 +83,5 @@ AVAILABLE_QA_MODELS = config(
 )
 # Languages without model that need to be handled in exclusive queues
 QUEUES_APPART_FROM_MULTILANG = config(
-    "QUEUES_APPART_FROM_MULTILANG", cast=cast_language_list
+    "QUEUES_APPART_FROM_MULTILANG", cast=cast_language_list, default=""
 )
