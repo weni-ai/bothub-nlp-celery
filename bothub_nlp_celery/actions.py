@@ -11,7 +11,11 @@ ACTION_EVALUATE = "evaluate"
 
 def queue_name(language, action=None, model_name=None):
     if model_name == "SPACY":
-        if language == "pt_br" and action in [ACTION_SENTENCE_SUGGESTION, ACTION_INTENT_SENTENCE_SUGGESTION, ACTION_WORD_SUGGESTION]:
+        if language == "pt_br" and action in [
+            ACTION_SENTENCE_SUGGESTION,
+            ACTION_INTENT_SENTENCE_SUGGESTION,
+            ACTION_WORD_SUGGESTION,
+        ]:
             queue = "pt_br-SPACY_SUGGESTION"
         elif language in ["en", "pt_br", "es", "ru", "fr", "pt"]:
             queue = language + "-SPACY"
@@ -29,15 +33,3 @@ def queue_name(language, action=None, model_name=None):
             queue = "multilang"
 
     return queue
-
-#
-# def queue_name(language, action=None, model_name=None):
-#     queue = language
-#     if model_name == "QA":
-#         if language not in ["en", "pt_br"]:
-#             queue = f"multilang-{model_name}"
-#         else:
-#             queue += f"-{model_name}"
-#     elif model_name is not None:
-#         queue += f"-{model_name}"
-#     return queue
