@@ -62,3 +62,26 @@ REDIS_SOCKET_CONNECT_TIMEOUT = config("REDIS_SOCKET_CONNECT_TIMEOUT", default=No
 REDIS_SOCKET_TIMEOUT = config("REDIS_SOCKET_TIMEOUT", cast=int, default=120)
 REDIS_RETRY_ON_TIMEOUT = config("REDIS_RETRY_ON_TIMEOUT", cast=bool, default=False)
 REDIS_SOCKET_KEEPALIVE = config("REDIS_SOCKET_KEEPALIVE", cast=bool, default=False)
+
+
+# Queue settings
+def cast_language_list(ls):
+    return [lang.strip() for lang in ls.split("|")]
+
+
+# Available languages with word2vec models
+AVAILABLE_SPACY_MODELS = config(
+    "AVAILABLE_SPACY_MODELS", cast=cast_language_list, default="en|pt_br|es|fr|ru"
+)
+# Available languages with BERT models
+AVAILABLE_BERT_MODELS = config(
+    "AVAILABLE_BERT_MODELS", cast=cast_language_list, default="en|pt_br"
+)
+# Available languages with QA models
+AVAILABLE_QA_MODELS = config(
+    "AVAILABLE_QA_MODELS", cast=cast_language_list, default="en|pt_br"
+)
+# Languages without model that need to be handled in exclusive queues
+QUEUES_APPART_FROM_MULTILANG = config(
+    "QUEUES_APPART_FROM_MULTILANG", cast=cast_language_list
+)
