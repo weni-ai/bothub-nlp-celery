@@ -11,9 +11,9 @@ ACTION_TRAIN = "train"
 ACTION_EVALUATE = "evaluate"
 
 available_models_to_lang = {
-    "BERT": settings.AVAILABLE_BERT_MODELS,
-    "QA": settings.AVAILABLE_QA_MODELS,
-    "SPACY": settings.AVAILABLE_SPACY_MODELS,
+    "BERT": settings.AVAILABLE_SPECIFIC_BERT_QUEUES,
+    "QA": settings.AVAILABLE_SPECIFIC_QA_QUEUES,
+    "SPACY": settings.AVAILABLE_SPECIFIC_SPACY_QUEUES,
 }
 
 
@@ -35,9 +35,9 @@ def queue_name(language, action=None, model_name=None):
         else:
             queue = "multilang-" + model_name
     else:
-        # QUEUES_APPART_FROM_MULTILANG allows to handle separate queues for specific languages
+        # AVAILABLE_SPECIFIC_QUEUES allows to handle separate queues for specific languages
         # sometimes it is needed to handle heavy load queues separately
-        if language in settings.QUEUES_APPART_FROM_MULTILANG:
+        if language in settings.AVAILABLE_SPECIFIC_QUEUES:
             queue = language
         else:
             queue = "multilang"

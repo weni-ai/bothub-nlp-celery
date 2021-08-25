@@ -64,24 +64,38 @@ REDIS_RETRY_ON_TIMEOUT = config("REDIS_RETRY_ON_TIMEOUT", cast=bool, default=Fal
 REDIS_SOCKET_KEEPALIVE = config("REDIS_SOCKET_KEEPALIVE", cast=bool, default=False)
 
 
-# Queue settings
 def cast_language_list(ls):
     return [lang.strip() for lang in ls.split("|") if lang.strip()]
 
 
-# Available languages with word2vec models
+# Model settings
+# Available SPACY models
 AVAILABLE_SPACY_MODELS = config(
     "AVAILABLE_SPACY_MODELS", cast=cast_language_list, default="en|pt_br|es|fr|ru"
 )
-# Available languages with BERT models
+# Available BERT models
 AVAILABLE_BERT_MODELS = config(
-    "AVAILABLE_BERT_MODELS", cast=cast_language_list, default="en|pt_br"
+    "AVAILABLE_BERT_MODELS", cast=cast_language_list, default="en|pt_br|multilang"
+)
+# Available QA models
+AVAILABLE_QA_MODELS = config(
+    "AVAILABLE_QA_MODELS", cast=cast_language_list, default="en|pt_br|multilang"
+)
+
+# Queue settings
+# Available languages with word2vec models
+AVAILABLE_SPECIFIC_SPACY_QUEUES = config(
+    "AVAILABLE_SPECIFIC_SPACY_QUEUES", cast=cast_language_list, default="en|pt_br|es|fr|ru"
+)
+# Available languages with BERT models
+AVAILABLE_SPECIFIC_BERT_QUEUES = config(
+    "AVAILABLE_SPECIFIC_BERT_QUEUES", cast=cast_language_list, default="en|pt_br"
 )
 # Available languages with QA models
-AVAILABLE_QA_MODELS = config(
-    "AVAILABLE_QA_MODELS", cast=cast_language_list, default="en|pt_br"
+AVAILABLE_SPECIFIC_QA_QUEUES = config(
+    "AVAILABLE_SPECIFIC_QA_QUEUES", cast=cast_language_list, default="en|pt_br"
 )
 # Languages without model that need to be handled in exclusive queues
-QUEUES_APPART_FROM_MULTILANG = config(
-    "QUEUES_APPART_FROM_MULTILANG", cast=cast_language_list, default=""
+AVAILABLE_SPECIFIC_QUEUES = config(
+    "AVAILABLE_SPECIFIC_QUEUES", cast=cast_language_list, default=""
 )
