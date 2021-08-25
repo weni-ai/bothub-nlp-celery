@@ -1,4 +1,4 @@
-import settings
+from . import settings
 
 ACTION_PARSE = "parse"
 ACTION_DEBUG_PARSE = "debug_parse"
