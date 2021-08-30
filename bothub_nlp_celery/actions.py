@@ -9,6 +9,8 @@ ACTION_WORDS_DISTIRBUTION = "words_distribution"
 ACTION_SCORE_CALCULATION = "score_calculation"
 ACTION_TRAIN = "train"
 ACTION_EVALUATE = "evaluate"
+ACTION_QUESTION_ANSWERING = "question_answering"
+
 
 available_models_to_lang = {
     "BERT": settings.AVAILABLE_SPECIFIC_BERT_QUEUES,
