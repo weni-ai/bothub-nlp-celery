@@ -39,7 +39,7 @@ GOOGLE_APPLICATION_CREDENTIALS = config("GOOGLE_APPLICATION_CREDENTIALS", defaul
 BOTHUB_NLP_LANGUAGE_QUEUE = config("BOTHUB_NLP_LANGUAGE_QUEUE", default="en")
 BOTHUB_LANGUAGE_MODEL = config("BOTHUB_LANGUAGE_MODEL", default=None)
 
-SPACY_LANGUAGES = ["en", "pt_br", "xx", "es", "fr", "ru"]
+SPACY_LANGUAGES = ["en", "pt_br", "es", "fr", "ru"]
 
 BERT_LANGUAGES = ["pt_br", "en"]
 
@@ -55,8 +55,47 @@ TASK_GENERAL_TIME_LIMIT = config("TASK_GENERAL_TIME_LIMIT", cast=int, default=12
 TASK_PARSE_TIME_LIMIT = config("TASK_PARSE_TIME_LIMIT", cast=int, default=10)
 
 # Redis settings
-REDIS_BACKEND_HEALTH_CHECK_INTERVAL = config("REDIS_BACKEND_HEALTH_CHECK_INTERVAL", default=None)
+REDIS_BACKEND_HEALTH_CHECK_INTERVAL = config(
+    "REDIS_BACKEND_HEALTH_CHECK_INTERVAL", default=None
+)
 REDIS_SOCKET_CONNECT_TIMEOUT = config("REDIS_SOCKET_CONNECT_TIMEOUT", default=None)
 REDIS_SOCKET_TIMEOUT = config("REDIS_SOCKET_TIMEOUT", cast=int, default=120)
 REDIS_RETRY_ON_TIMEOUT = config("REDIS_RETRY_ON_TIMEOUT", cast=bool, default=False)
 REDIS_SOCKET_KEEPALIVE = config("REDIS_SOCKET_KEEPALIVE", cast=bool, default=False)
+
+
+def cast_language_list(ls):
+    return [lang.strip() for lang in ls.split("|") if lang.strip()]
+
+
+# Model settings
+# Available SPACY models
+AVAILABLE_SPACY_MODELS = config(
+    "AVAILABLE_SPACY_MODELS", cast=cast_language_list, default="en|pt_br|es|fr|ru"
+)
+# Available BERT models
+AVAILABLE_BERT_MODELS = config(
+    "AVAILABLE_BERT_MODELS", cast=cast_language_list, default="en|pt_br|multilang"
+)
+# Available QA models
+AVAILABLE_QA_MODELS = config(
+    "AVAILABLE_QA_MODELS", cast=cast_language_list, default="en|pt_br|multilang"
+)
+
+# Queue settings
+# Available languages with word2vec models
+AVAILABLE_SPECIFIC_SPACY_QUEUES = config(
+    "AVAILABLE_SPECIFIC_SPACY_QUEUES", cast=cast_language_list, default="en|pt_br|es|fr|ru"
+)
+# Available languages with BERT models
+AVAILABLE_SPECIFIC_BERT_QUEUES = config(
+    "AVAILABLE_SPECIFIC_BERT_QUEUES", cast=cast_language_list, default="en|pt_br"
+)
+# Available languages with QA models
+AVAILABLE_SPECIFIC_QA_QUEUES = config(
+    "AVAILABLE_SPECIFIC_QA_QUEUES", cast=cast_language_list, default="en|pt_br"
+)
+# Languages without model that need to be handled in exclusive queues
+AVAILABLE_SPECIFIC_QUEUES = config(
+    "AVAILABLE_SPECIFIC_QUEUES", cast=cast_language_list, default=""
+)

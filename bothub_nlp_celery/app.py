@@ -55,9 +55,9 @@ class CeleryService(Celery):
 
         print(f"Loading QA models...")
 
-        models = {"pt_br": None, "en": None, "multilang": None}
+        models = {}
 
-        for model in models.keys():
+        for model in settings.AVAILABLE_QA_MODELS:
             model_data = model_info.get(model)
             try:
                 models[model] = QuestionAnsweringModel(
