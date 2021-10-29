@@ -2,7 +2,9 @@
 
 This package abstracts and centralize all Bothub NLP Celery app features.
 
-Usually this package is used as dependency in another packages.
+Usually this package is used as dependency in:
+- [bothub-nlp](https://github.com/bothub-it/bothub-nlp) _(worker nodes)_
+- [bothub-nlp-api](https://github.com/bothub-it/bothub-nlp-api)
 
 ## Environment Variables
 
