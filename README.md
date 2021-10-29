@@ -37,10 +37,10 @@ Variables that will be used by both the worker and the application that send the
 
 | Variable | Type | Default | Description |
 |--|--|--|--|
-| AVAILABLE_SPACY_MODELS | `string` | `en|pt_br|es|fr|ru` | Available SPACY models of working nodes |
-| AVAILABLE_BERT_MODELS | `string` | `en|pt_br|xx` | Available BERT models of working nodes |
-| AVAILABLE_QA_MODELS | `string` | `en|pt_br|xx` | Available QA models of working nodes |
-| AVAILABLE_SPECIFIC_SPACY_QUEUES | `string` | `en|pt_br|es|fr|ru` | Available languages with word2vec models |
-| AVAILABLE_SPECIFIC_BERT_QUEUES | `string` | `en|pt_br` | Available languages with BERT models |
-| AVAILABLE_SPECIFIC_QA_QUEUES | `string` | `en|pt_br` | Available languages with QA models |
+| AVAILABLE_SPACY_MODELS | `string` | <code>en|pt_br|es|fr|ru</code> | Available SPACY models of working nodes |
+| AVAILABLE_BERT_MODELS | `string` | <code>en|pt_br|xx</code> | Available BERT models of working nodes |
+| AVAILABLE_QA_MODELS | `string` | <code>en|pt_br|xx</code> | Available QA models of working nodes |
+| AVAILABLE_SPECIFIC_SPACY_QUEUES | `string` | <code>en|pt_br|es|fr|ru</code> | Available languages with word2vec models |
+| AVAILABLE_SPECIFIC_BERT_QUEUES | `string` | <code>en|pt_br</code> | Available languages with BERT models |
+| AVAILABLE_SPECIFIC_QA_QUEUES | `string` | <code>en|pt_br</code> | Available languages with QA models |
 | AVAILABLE_SPECIFIC_QUEUES | `string` | `""` | Languages without model that need to be handled in exclusive queues |
