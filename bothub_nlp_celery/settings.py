@@ -40,9 +40,6 @@ AIPLATFORM_LANGUAGE_MODEL = ARGUMENTS.AIPLATFORM_LANGUAGE_MODEL
 BOTHUB_NLP_LANGUAGE_QUEUE = config("BOTHUB_NLP_LANGUAGE_QUEUE", default="en")
 BOTHUB_LANGUAGE_MODEL = config("BOTHUB_LANGUAGE_MODEL", default=None)
 
-SPACY_LANGUAGES = ["en", "pt_br", "es", "fr", "ru"]
-
-BERT_LANGUAGES = ["pt_br", "en"]
 
 # Time Limits
 TASK_GENERAL_TIME_LIMIT = config("TASK_GENERAL_TIME_LIMIT", cast=int, default=120)
@@ -69,11 +66,11 @@ AVAILABLE_SPACY_MODELS = config(
 )
 # Available BERT models
 AVAILABLE_BERT_MODELS = config(
-    "AVAILABLE_BERT_MODELS", cast=cast_language_list, default="en|pt_br|multilang"
+    "AVAILABLE_BERT_MODELS", cast=cast_language_list, default="en|pt_br|xx"
 )
 # Available QA models
 AVAILABLE_QA_MODELS = config(
-    "AVAILABLE_QA_MODELS", cast=cast_language_list, default="en|pt_br|multilang"
+    "AVAILABLE_QA_MODELS", cast=cast_language_list, default="en|pt_br|xx"
 )
 
 # Queue settings
