@@ -5,7 +5,7 @@ extras_requires = {"spacy": ["spacy>=2.1,<2.2"]}
 
 setup(
     name="bothub-nlp-celery",
-    version="0.1.36",
+    version="0.1.38",
     description="Bothub NLP Celery",
     packages=find_packages(),
     install_requires=[
