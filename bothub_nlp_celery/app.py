@@ -5,6 +5,10 @@ from kombu.utils.objects import cached_property
 
 from . import settings, celeryconfig
 
+import logging
+
+logger = logging.getLogger(__name__)
+
 
 class CeleryService(Celery):
     @cached_property
@@ -12,7 +16,7 @@ class CeleryService(Celery):
         """Current nlp spacy instance."""
         import spacy
 
-        print(f"loading {settings.BOTHUB_NLP_LANGUAGE_QUEUE} spacy lang model...")
+        logger.info(f"loading {settings.BOTHUB_NLP_LANGUAGE_QUEUE} spacy lang model...")
         nlp = spacy.load(settings.BOTHUB_NLP_LANGUAGE_QUEUE, parser=False)
         if nlp.vocab.vectors_length >= 0:
             norms = np.linalg.norm(nlp.vocab.vectors.data, axis=1, keepdims=True)
@@ -22,7 +26,7 @@ class CeleryService(Celery):
 
     @cached_property
     def nlp_bert(self):
-        print(f"loading {settings.BOTHUB_NLP_LANGUAGE_QUEUE} bert lang model...")
+        logger.info(f"loading {settings.BOTHUB_NLP_LANGUAGE_QUEUE} bert lang model...")
 
         from bothub.shared.utils.rasa_components.registry import (
             model_class_dict,
@@ -53,7 +57,7 @@ class CeleryService(Celery):
         from utils import model_info
         from simpletransformers.question_answering import QuestionAnsweringModel
 
-        print(f"Loading QA models...")
+        logger.info(f"Loading QA models...")
 
         models = {}
 
@@ -67,7 +71,7 @@ class CeleryService(Celery):
                     use_cuda=True,
                 )
             except ValueError as err:
-                print(err)
+                logger.debug(err)
                 models[model] = QuestionAnsweringModel(
                     model_data.get("type"),
                     model_data.get("dir"),
@@ -82,10 +86,9 @@ celery_app = CeleryService("bothub_nlp_celery")
 celery_app.config_from_object(celeryconfig)
 
 if settings.BOTHUB_LANGUAGE_MODEL == "SPACY":
-    nlp_language = celery_app.nlp_spacy if settings.BOTHUB_NLP_SERVICE_WORKER else None
+    nlp_language = celery_app.nlp_spacy
 elif settings.AIPLATFORM_LANGUAGE_MODEL == "SPACY":
     import spacy
-
     nlp_language = spacy.load(settings.AIPLATFORM_LANGUAGE_QUEUE, parser=False)
 elif settings.BOTHUB_LANGUAGE_MODEL == "BERT":
     nlp_language = celery_app.nlp_bert
