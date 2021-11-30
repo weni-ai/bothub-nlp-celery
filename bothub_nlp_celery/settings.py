@@ -22,6 +22,13 @@ BOTHUB_NLP_SENTRY_CLIENT = config(
 
 BOTHUB_NLP_SENTRY = config("BOTHUB_NLP_CELERY_SENTRY", default=None)
 
+if BOTHUB_NLP_SENTRY_CLIENT:
+    init(
+        dsn=BOTHUB_NLP_SENTRY,
+        environment=ENVIRONMENT,
+        integrations=[CeleryIntegration()],
+    )
+
 # Input Arguments
 PARSER.add_argument("--AIPLATFORM_LANGUAGE_QUEUE", type=str, default=None)
 PARSER.add_argument("--AIPLATFORM_LANGUAGE_MODEL", type=str, default=None)
@@ -30,25 +37,9 @@ ARGUMENTS, _ = PARSER.parse_known_args()
 AIPLATFORM_LANGUAGE_QUEUE = ARGUMENTS.AIPLATFORM_LANGUAGE_QUEUE
 AIPLATFORM_LANGUAGE_MODEL = ARGUMENTS.AIPLATFORM_LANGUAGE_MODEL
 
-BOTHUB_NLP_SERVICE_WORKER = config(
-    "BOTHUB_NLP_SERVICE_WORKER", cast=bool, default=False
-)
-
-GOOGLE_APPLICATION_CREDENTIALS = config("GOOGLE_APPLICATION_CREDENTIALS", default=None)
-
 BOTHUB_NLP_LANGUAGE_QUEUE = config("BOTHUB_NLP_LANGUAGE_QUEUE", default="en")
 BOTHUB_LANGUAGE_MODEL = config("BOTHUB_LANGUAGE_MODEL", default=None)
 
-SPACY_LANGUAGES = ["en", "pt_br", "es", "fr", "ru"]
-
-BERT_LANGUAGES = ["pt_br", "en"]
-
-if BOTHUB_NLP_SENTRY_CLIENT:
-    init(
-        dsn=BOTHUB_NLP_SENTRY,
-        environment=ENVIRONMENT,
-        integrations=[CeleryIntegration()],
-    )
 
 # Time Limits
 TASK_GENERAL_TIME_LIMIT = config("TASK_GENERAL_TIME_LIMIT", cast=int, default=120)
@@ -75,11 +66,11 @@ AVAILABLE_SPACY_MODELS = config(
 )
 # Available BERT models
 AVAILABLE_BERT_MODELS = config(
-    "AVAILABLE_BERT_MODELS", cast=cast_language_list, default="en|pt_br|multilang"
+    "AVAILABLE_BERT_MODELS", cast=cast_language_list, default="en|pt_br|xx"
 )
 # Available QA models
 AVAILABLE_QA_MODELS = config(
-    "AVAILABLE_QA_MODELS", cast=cast_language_list, default="en|pt_br|multilang"
+    "AVAILABLE_QA_MODELS", cast=cast_language_list, default="en|pt_br|xx"
 )
 
 # Queue settings
