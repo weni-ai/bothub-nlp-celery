@@ -12,7 +12,7 @@ setup(
         "celery==5.1.2",
         "python-decouple==3.3",
         "sentry-sdk==0.13.2",
-        "numpy==1.18.1",
+        "numpy==1.22.0",
         "spacy==2.1.9",
     ],
     extras_require=extras_requires,
