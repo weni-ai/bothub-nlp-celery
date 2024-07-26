@@ -1,5 +1,3 @@
-import numpy as np
-
 from celery import Celery
 from kombu.utils.objects import cached_property
 
@@ -11,19 +9,6 @@ logger = logging.getLogger(__name__)
 
 
 class CeleryService(Celery):
-    @cached_property
-    def nlp_spacy(self):
-        """Current nlp spacy instance."""
-        import spacy
-
-        logger.info(f"loading {settings.BOTHUB_NLP_LANGUAGE_QUEUE} spacy lang model...")
-        nlp = spacy.load(settings.BOTHUB_NLP_LANGUAGE_QUEUE, parser=False)
-        if nlp.vocab.vectors_length >= 0:
-            norms = np.linalg.norm(nlp.vocab.vectors.data, axis=1, keepdims=True)
-            norms[norms == 0] = 1
-            nlp.vocab.vectors.data /= norms
-        return nlp
-
     @cached_property
     def nlp_bert(self):
         logger.info(f"loading {settings.BOTHUB_NLP_LANGUAGE_QUEUE} bert lang model...")
@@ -85,12 +70,7 @@ class CeleryService(Celery):
 celery_app = CeleryService("bothub_nlp_celery")
 celery_app.config_from_object(celeryconfig)
 
-if settings.BOTHUB_LANGUAGE_MODEL == "SPACY":
-    nlp_language = celery_app.nlp_spacy
-elif settings.AIPLATFORM_LANGUAGE_MODEL == "SPACY":
-    import spacy
-    nlp_language = spacy.load(settings.AIPLATFORM_LANGUAGE_QUEUE, parser=False)
-elif settings.BOTHUB_LANGUAGE_MODEL == "BERT":
+if settings.BOTHUB_LANGUAGE_MODEL == "BERT":
     nlp_language = celery_app.nlp_bert
 else:
     nlp_language = None
