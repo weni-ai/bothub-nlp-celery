@@ -62,7 +62,7 @@ def cast_language_list(ls):
 # Model settings
 # Available SPACY models
 AVAILABLE_SPACY_MODELS = config(
-    "AVAILABLE_SPACY_MODELS", cast=cast_language_list, default="en|pt_br|es"
+    "AVAILABLE_SPACY_MODELS", cast=cast_language_list, default=""
 )
 # Available BERT models
 AVAILABLE_BERT_MODELS = config(
@@ -76,7 +76,7 @@ AVAILABLE_QA_MODELS = config(
 # Queue settings
 # Available languages with word2vec models
 AVAILABLE_SPECIFIC_SPACY_QUEUES = config(
-    "AVAILABLE_SPECIFIC_SPACY_QUEUES", cast=cast_language_list, default="en|pt_br|es"
+    "AVAILABLE_SPECIFIC_SPACY_QUEUES", cast=cast_language_list, default=""
 )
 # Available languages with BERT models
 AVAILABLE_SPECIFIC_BERT_QUEUES = config(
